@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* Custom CSS Variables */
+:root {
+  --color-primary: #3b82f6;
+  --color-primary-dark: #2563eb;
+  --color-secondary: #10b981;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+}
+
+/* Base styles */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Focus states for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
