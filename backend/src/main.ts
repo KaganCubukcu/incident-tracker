@@ -10,17 +10,31 @@ async function bootstrap() {
   // Enable CORS for frontend
   const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5173')
     .split(',')
-    .map((o) => o.trim());
+    .map((o) => o.trim().replace(/\/$/, ''));
 
   app.enableCors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      const cleanOrigin = origin.replace(/\/$/, '');
+      if (allowedOrigins.includes(cleanOrigin)) {
         callback(null, true);
       } else {
         callback(new Error(`Origin ${origin} not allowed by CORS`));
       }
     },
     credentials: true,
+  });
+
+  // Request Logging Middleware
+  app.use((req, res, next) => {
+    const logger = new Logger('HTTP');
+    logger.log(
+      `${req.method} ${req.url} - Origin: ${req.headers.origin || 'N/A'}`,
+    );
+    next();
   });
 
   // Global Validation
