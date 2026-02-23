@@ -1,34 +1,67 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
-import { IncidentService } from "./incidents.service";
-import { CreateIncidentDto } from "./dto/create-incident.dto";
-import { UpdateIncidentDto } from "./dto/update-incident.dto";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
+import { IncidentService } from './incidents.service';
+import { CreateIncidentDto } from './dto/create-incident.dto';
+import { UpdateIncidentDto } from './dto/update-incident.dto';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { User } from '../../generated/prisma/client';
 
+@ApiTags('incidents')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('incidents')
 export class IncidentsController {
-    constructor(private readonly incidentService: IncidentService) { }
+  constructor(private readonly incidentsService: IncidentService) {}
 
-    @Post()
-    create(@Body() createIncidentDto: CreateIncidentDto) {
-        return this.incidentService.create(createIncidentDto);
-    }
+  @Post()
+  @ApiOperation({ summary: 'Create a new incident' })
+  create(
+    @Body() createIncidentDto: CreateIncidentDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.incidentsService.create(createIncidentDto, user.id);
+  }
 
-    @Get()
-    findAll() {
-        return this.incidentService.findAll();
-    }
+  @Get()
+  findAll(
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+  ) {
+    return this.incidentsService.findAll(+page, +limit);
+  }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.incidentService.findOne(+id);
-    }
+  @Get('stats')
+  @ApiOperation({ summary: 'Get incident statistics' })
+  getStats() {
+    return this.incidentsService.getStats();
+  }
 
-    @Patch(':id')
-    update(@Param('id') id: string, @Body() updateIncidentDto: UpdateIncidentDto) {
-        return this.incidentService.update(+id, updateIncidentDto);
-    }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.incidentsService.findOne(+id);
+  }
 
-    @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.incidentService.remove(+id);
-    }
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateIncidentDto: UpdateIncidentDto,
+  ) {
+    return this.incidentsService.update(+id, updateIncidentDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.incidentsService.remove(+id);
+  }
 }

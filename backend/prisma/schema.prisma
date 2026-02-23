@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
@@ -21,14 +21,39 @@ enum Status {
   CLOSED
 }
 
+enum Role {
+  USER
+  DEVELOPER
+  MODERATOR
+  ADMIN
+}
+
+model User {
+  id                Int        @id @default(autoincrement())
+  email             String     @unique
+  passwordHash      String
+  role              Role       @default(USER)
+  reportedIncidents Incident[] @relation("ReportedIncidents")
+  assignedIncidents Incident[] @relation("AssignedTo")
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  deletedAt         DateTime?
+
+  @@map("users")
+}
+
 model Incident {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
   description String?
-  priority    Priority @default(MEDIUM)
-  status      Status   @default(OPEN)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  priority    Priority  @default(MEDIUM)
+  status      Status    @default(OPEN)
+  authorId    Int?
+  author      User?     @relation("ReportedIncidents", fields: [authorId], references: [id])
+  assigneeId  Int?
+  assignee    User?     @relation("AssignedTo", fields: [assigneeId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
 
   @@map("incidents")
