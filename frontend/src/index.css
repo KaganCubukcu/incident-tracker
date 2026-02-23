@@ -2,20 +2,42 @@
 
 /* Custom CSS Variables */
 :root {
-  --color-primary: #3b82f6;
-  --color-primary-dark: #2563eb;
-  --color-secondary: #10b981;
-  --color-danger: #ef4444;
-  --color-warning: #f59e0b;
-  --color-background: #f8fafc;
-  --color-surface: #ffffff;
-  --color-text: #1e293b;
-  --color-text-muted: #64748b;
+  /* Core */
+  --bg-primary: #0f172a; /* Deep navy */
+  --bg-secondary: #1e293b; /* Card/panel backgrounds */
+  --bg-surface: #334155; /* Elevated surfaces */
+  --border: #475569; /* Subtle borders */
+
+  /* Accent */
+  --accent-blue: #3b82f6; /* Primary interactive */
+  --accent-orange: #f97316; /* CTA buttons */
+
+  /* Status */
+  --status-critical: #ef4444;
+  --status-high: #f97316;
+  --status-medium: #f59e0b;
+  --status-low: #3b82f6;
+  --status-open: #ef4444;
+  --status-progress: #f59e0b;
+  --status-resolved: #22c55e;
+  --status-closed: #64748b;
+
+  /* Text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Font */
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
 /* Base styles */
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
   background-color: var(--color-background);
   color: var(--color-text);
 }
