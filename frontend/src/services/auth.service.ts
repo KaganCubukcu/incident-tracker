@@ -7,7 +7,7 @@ export const authService = {
     return response.data;
   },
   signup: async (data: AuthDto): Promise<AuthResponse> => {
-    const response = await api.post("auth/signup", data);
+    const response = await api.post("/auth/signup", data);
     return response.data;
   },
 };

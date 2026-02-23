@@ -8,12 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Enable CORS
-  const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5173')
-    .split(',')
-    .map((o) => o.trim().replace(/\/$/, ''));
-
   app.enableCors({
-    origin: allowedOrigins,
+    origin: '*',
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Accept,Authorization',
@@ -52,7 +48,7 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
 
   logger.log(`Server starting on port ${port}`);
-  logger.log(`Allowed Origins: ${allowedOrigins.join(', ')}`);
+  logger.log(`Allowed Origins: * (Diagnostic Mode)`);
 
   await app.listen(port, '0.0.0.0');
 }
