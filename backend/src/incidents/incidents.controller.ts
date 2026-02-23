@@ -15,7 +15,7 @@ import { UpdateIncidentDto } from './dto/update-incident.dto';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
-import { User } from '../../generated/prisma/client';
+import { User } from '@prisma/client';
 
 @ApiTags('incidents')
 @ApiBearerAuth()
