@@ -7,33 +7,26 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS for frontend
+  // Enable CORS
   const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5173')
     .split(',')
     .map((o) => o.trim().replace(/\/$/, ''));
 
   app.enableCors({
-    origin: (origin, callback) => {
-      if (!origin) {
-        callback(null, true);
-        return;
-      }
-      const cleanOrigin = origin.replace(/\/$/, '');
-      if (allowedOrigins.includes(cleanOrigin)) {
-        callback(null, true);
-      } else {
-        callback(new Error(`Origin ${origin} not allowed by CORS`));
-      }
-    },
+    origin: allowedOrigins,
     credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Accept,Authorization',
   });
 
   // Request Logging Middleware
   app.use((req, res, next) => {
     const logger = new Logger('HTTP');
-    logger.log(
-      `${req.method} ${req.url} - Origin: ${req.headers.origin || 'N/A'}`,
-    );
+    if (req.method !== 'OPTIONS') {
+      logger.log(
+        `${req.method} ${req.url} - Origin: ${req.headers.origin || 'N/A'}`,
+      );
+    }
     next();
   });
 
@@ -46,7 +39,7 @@ async function bootstrap() {
     }),
   );
 
-  // Swagger Documentation //
+  // Swagger Documentation
   const config = new DocumentBuilder()
     .setTitle('Incident Tracker API')
     .setDescription('The Incident Tracker API description')
