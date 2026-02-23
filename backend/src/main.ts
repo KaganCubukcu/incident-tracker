@@ -46,7 +46,7 @@ async function bootstrap() {
     }),
   );
 
-  // Swagger Documentation
+  // Swagger Documentation //
   const config = new DocumentBuilder()
     .setTitle('Incident Tracker API')
     .setDescription('The Incident Tracker API description')
