@@ -64,8 +64,9 @@ export class IncidentService {
   }
 
   async remove(id: number) {
-    return this.prisma.incident.delete({
+    return this.prisma.incident.update({
       where: { id },
+      data: { deletedAt: new Date() },
     });
   }
 
