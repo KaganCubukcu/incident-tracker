@@ -22,12 +22,14 @@ The project is structured as a monorepo-style setup:
 ## 🛠 Tech Stack
 
 ### Backend
+
 - **Framework**: [NestJS](https://nestjs.com/)
 - **ORM**: [Prisma 7](https://www.prisma.io/)
 - **Validation**: `class-validator`, `class-transformer`
 - **Documentation**: Swagger/OpenAPI
 
 ### Frontend
+
 - **Framework**: [React 19](https://react.dev/)
 - **Build Tool**: [Vite 7](https://vitejs.dev/)
 - **State Management**: [React Query 5](https://tanstack.com/query)
@@ -37,16 +39,20 @@ The project is structured as a monorepo-style setup:
 ## 🏁 Getting Started
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - Docker & Docker Compose
 
 ### 1. Database Setup
+
 Start the PostgreSQL database using Docker Compose:
+
 ```bash
 docker-compose up -d
 ```
 
 ### 2. Backend Setup
+
 1. Navigate to the backend directory:
    ```bash
    cd backend
@@ -58,6 +64,7 @@ docker-compose up -d
 3. Configure environment variables (Create a `.env` file):
    ```env
    DATABASE_URL="postgresql://user_admin:password123@localhost:5432/incident_tracker?schema=public"
+   JWT_SECRET="change-me-to-a-long-random-value"
    ```
 4. Run Prisma migrations and generate client:
    ```bash
@@ -72,6 +79,7 @@ docker-compose up -d
    Swagger UI: `http://localhost:3000/api`
 
 ### 3. Frontend Setup
+
 1. Navigate to the frontend directory:
    ```bash
    cd frontend
