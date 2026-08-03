@@ -41,17 +41,6 @@ export const incidentService = {
     await api.delete(`${ENDPOINT}/${id}`);
   },
 
-  // Upload attachment
-  uploadAttachment: async (id: string, file: File): Promise<Incident> => {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const response = await api.post(`${ENDPOINT}/${id}/attachment`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return response.data;
-  },
-
   getStats: async (): Promise<Record<string, number>> => {
     const response = await api.get(`${ENDPOINT}/stats`);
     return response.data;

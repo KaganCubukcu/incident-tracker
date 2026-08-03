@@ -59,19 +59,6 @@ export function useDeleteIncident() {
   });
 }
 
-// Upload attachment mutation
-export function useUploadAttachment() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ id, file }: { id: string; file: File }) =>
-      incidentService.uploadAttachment(id, file),
-    onSuccess: (_, { id }) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY, id] });
-    },
-  });
-}
-
 // Fetch incident statistics
 export function useIncidentStats() {
   return useQuery({
